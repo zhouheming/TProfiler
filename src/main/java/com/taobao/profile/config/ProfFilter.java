@@ -76,6 +76,9 @@ public class ProfFilter {
 	 * @return
 	 */
 	public static boolean isNeedInject(String className) {
+		if (className == null){
+			return false;
+		}
 		String icaseName = className.toLowerCase().replace('.', '/');
 		for (String v : includePackage) {
 			if (icaseName.startsWith(v)) {

@@ -11,6 +11,8 @@ package com.taobao.profile;
 import java.lang.instrument.Instrumentation;
 
 import com.taobao.profile.instrument.ProfTransformer;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * TProfiler入口
@@ -25,8 +27,13 @@ public class Main {
 	 * @param inst
 	 */
 	public static void premain(String args, Instrumentation inst) {
-		Manager.instance().initialization();
-		inst.addTransformer(new ProfTransformer());
-		Manager.instance().startupThread();
+		try {
+			Manager.instance().initialization();
+			inst.addTransformer(new ProfTransformer());
+			Manager.instance().startupThread();
+		} catch (Throwable t){
+			System.out.println(t);
+			throw t;
+		}
 	}
 }

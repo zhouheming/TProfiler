@@ -14,8 +14,8 @@ import java.security.ProtectionDomain;
 
 import com.taobao.profile.dependence_query.mysql.MysqlProfClassAdapter;
 import com.taobao.profile.dependence_query.mysql.MysqlProfFilter;
-import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
 import com.taobao.profile.Manager;
@@ -56,7 +56,7 @@ public class ProfTransformer implements ClassFileTransformer {
 			//使用asm修改类的字节码
 			ClassReader reader = new ClassReader(classfileBuffer);
 			ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-			ClassAdapter adapter = new MysqlProfClassAdapter(writer, className);
+			ClassVisitor adapter = new MysqlProfClassAdapter(writer, className);
 			reader.accept(adapter, 0);
 			// 生成新类字节码
 			return writer.toByteArray();
@@ -96,7 +96,7 @@ public class ProfTransformer implements ClassFileTransformer {
 		try {
 			ClassReader reader = new ClassReader(classfileBuffer);
 			ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-			ClassAdapter adapter = new ProfClassAdapter(writer, className);
+			ClassVisitor adapter = new ProfClassAdapter(writer, className);
 			reader.accept(adapter, 0);
 			// 生成新类字节码
 			return writer.toByteArray();
